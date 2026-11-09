@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "JuniDesk"
+description = "A responsive support desk where requesters submit and track help tickets, agents manage queues and conversations, and admins configure teams, users, and settings."
+version = "1.0.0"
+id = "artifacts/junidesk"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26264
+
+[services.development]
+run = "pnpm --filter @workspace/junidesk run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/junidesk", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/junidesk/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26264"
+BASE_PATH = "/"
